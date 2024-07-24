@@ -1,4 +1,4 @@
-# blazor-textarea-form-support
+# Blazor-TextArea-Form-Support
 A quick-start project that helps you how to form support in Blazor TextArea Component. 
 
 Online examples: https://blazor.syncfusion.com/demos/textarea/formsvalidation?theme=fluent2
