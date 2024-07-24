@@ -1,0 +1,71 @@
+﻿@page "/"
+
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Buttons
+
+<div class="form-container">
+    <EditForm Model="@annotation" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+
+        <div class="form-element">
+            <SfTextArea @bind-Value="annotation.Message" ResizeMode="Resize.None" FloatLabelType="FloatLabelType.Always" RowCount="6" ColumnCount="40"
+                        Placeholder="Type your message.." CssClass="e-static-clear" ShowClearButton="true"></SfTextArea>
+            <ValidationMessage For="@(() => annotation.Message)" />
+        </div>
+
+        <div class="form-element">
+            <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <p class="success-message">@message</p>
+    }
+</div>
+<style>
+    /* Center the form container */
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5rem;
+    }
+
+    /* Style for the form elements to ensure proper spacing */
+    .form-element {
+        margin-bottom: 1rem;
+    }
+
+    /* Style for the success message */
+    .success-message {
+        margin-top: 1rem;
+        color: green; /* Ensures the success message is green */
+    }
+</style>
+
+@code {
+    private string message = string.Empty;
+    private Annotation annotation = new Annotation();
+
+    private async Task OnValidSubmit()
+    {
+        message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        message = string.Empty;
+        StateHasChanged();
+    }
+
+    private void OnInvalidSubmit()
+    {
+        message = string.Empty;
+    }
+
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The Message field is required.")]
+        [MaxLength(250, ErrorMessage = "The Message field should not contain more than 250 characters.")]
+        [MinLength(20, ErrorMessage = "The Message field must contain at least 20 characters.")]
+        public string? Message { get; set; }
+    }
+}
